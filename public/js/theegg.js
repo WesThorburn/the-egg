@@ -232,13 +232,17 @@ function drawBackground(ctx, cam){
 	var grass1 = document.getElementById("grass");
 	var grass2 = document.getElementById("grass2");
 	var berries = document.getElementById("berries");
+	var leaf = document.getElementById("leaf");
+	var nest = document.getElementById("nest");
 
 	ctx.drawImage(grass1, origin.x+85, origin.y+740);
 	ctx.drawImage(grass2, origin.x+200, origin.y+740);
 	ctx.drawImage(grass1, origin.x+540, origin.y+740);
 	ctx.drawImage(berries, origin.x+400, origin.y+700);
 	ctx.drawImage(grass1, origin.x+615, origin.y+740);
-	ctx.drawImage(grass2, origin.x+800, origin.y+740);
+	ctx.drawImage(leaf, origin.x+835, origin.y+423);
+	ctx.drawImage(leaf, origin.x+845, origin.y+403);
+	ctx.drawImage(nest, origin.x+270, origin.y+240);
 }
 
 function drawGrid(ctx, cam){
