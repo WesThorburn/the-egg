@@ -1,0 +1,32 @@
+{
+  "name": "battl-io",
+  "version": "1.0.0",
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/WesThorburn/battl-io-client.git"
+  },
+  "author": "Wes Thorburn",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/WesThorburn/battl-io-client/issues"
+  },
+  "homepage": "https://github.com/WesThorburn/battl-io-client#readme",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-batch-replace": "0.0.0",
+    "gulp-concat": "^2.6.1",
+    "gulp-css": "^0.1.0",
+    "gulp-replace": "^0.5.4",
+    "gulp-shell": "^0.5.2",
+    "gulp-uglify": "^2.0.0",
+    "gulp-util": "^3.0.8",
+    "gulp-watch": "^4.3.10",
+    "javascript": "0.0.0",
+    "javascript-obfuscator": "^0.8.6",
+    "obfuscator": "^0.5.4",
+    "yargs": "^6.6.0"
+  }
+}
