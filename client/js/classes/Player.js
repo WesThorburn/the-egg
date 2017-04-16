@@ -14,8 +14,8 @@ var Player = function(initPack){
 		self.x += Math.round(self.spdX);
 		self.y += Math.round(self.spdY);
 
-		if(self.y > 728){
-			self.y = 728;
+		if(self.y > 800){
+			self.y = 800;
 		}
 	}
 

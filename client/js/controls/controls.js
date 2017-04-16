@@ -3,7 +3,7 @@ var testModeInterval;
 
 document.onkeydown = function(event){
 	if(inGame){
-		if([68, 83, 65, 87, 82, 32, 19, 45, 37, 38, 39, 40].indexOf(event.keyCode) != -1){
+		if([68, 83, 65, 87, 82, 32, 19, 220, 37, 38, 39, 40].indexOf(event.keyCode) != -1){
 			event.preventDefault();
 			if(event.keyCode == 65){ //a
 				Player.list[selfId].spdX = -5;
@@ -35,7 +35,7 @@ document.onkeydown = function(event){
 			else if(event.keyCode == 32){ //spacebar
 				console.log("Space pressed");
 			}
-			else if(event.keyCode == 45){//insert key
+			else if(event.keyCode == 220){//insert key
 				console.log("Insert Key pressed");
 				DEBUG = !DEBUG;
 				console.log("Going into debug mode");
