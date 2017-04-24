@@ -6,28 +6,28 @@ document.onkeydown = function(event){
 		if([68, 83, 65, 87, 82, 32, 19, 220, 37, 38, 39, 40].indexOf(event.keyCode) != -1){
 			event.preventDefault();
 			if(event.keyCode == 65){ //a
-				Player.list[selfId].spdX = -5;
+				Player.list[selfId].pressingLeft = 1;
 			}
 			else if(event.keyCode == 68){ //d
-				Player.list[selfId].spdX = 5;
+				Player.list[selfId].pressingRight = 1;
 			}
 			else if(event.keyCode == 87){ //w
-				Player.list[selfId].spdY = -5;
+				Player.list[selfId].pressingUp = 1;
 			}
 			else if(event.keyCode == 83){ //s
-				Player.list[selfId].spdY = 5;
+				Player.list[selfId].pressingDown = 1;
 			}
 			else if(event.keyCode == 37){ //left arrow
-				Player.list[selfId].spdX = -5;
+				Player.list[selfId].pressingLeft = 1;
 			}
 			else if(event.keyCode == 39){ //right arrow
-				Player.list[selfId].spdX = 5;
+				Player.list[selfId].pressingRight = 1;
 			}
 			else if(event.keyCode == 38){ //up arrow
-				Player.list[selfId].spdY = -5;
+				Player.list[selfId].pressingUp = 1;
 			}
 			else if(event.keyCode == 40){ //down arrow
-				Player.list[selfId].spdY = 5;
+				Player.list[selfId].pressingDown = 1;
 			}
 			else if(event.keyCode == 82){ //r
 				console.log("R pressed");
@@ -48,28 +48,28 @@ document.onkeyup = function(event){
 		if([68, 83, 65, 87, 82, 32, 19, 45, 37, 38, 39, 40].indexOf(event.keyCode) != -1){
 			event.preventDefault();
 			if(event.keyCode == 65){ //a
-				Player.list[selfId].spdX = 0;
+				Player.list[selfId].pressingLeft = 0;
 			}
 			else if(event.keyCode == 68){ //d
-				Player.list[selfId].spdX = 0;
+				Player.list[selfId].pressingRight = 0;
 			}
 			else if(event.keyCode == 87){ //w
-				Player.list[selfId].spdY = 0;
+				Player.list[selfId].pressingUp = 0;
 			}
 			else if(event.keyCode == 83){ //s
-				Player.list[selfId].spdY = 0;
+				Player.list[selfId].pressingDown = 0;
 			}
 			else if(event.keyCode == 37){ //left arrow
-				Player.list[selfId].spdX = 0;
+				Player.list[selfId].pressingLeft = 0;
 			}
 			else if(event.keyCode == 39){ //right arrow
-				Player.list[selfId].spdX = 0;
+				Player.list[selfId].pressingRight = 0;
 			}
 			else if(event.keyCode == 38){ //up arrow
-				Player.list[selfId].spdY = 0;
+				Player.list[selfId].pressingUp = 0;
 			}
 			else if(event.keyCode == 40){ //down arrow
-				Player.list[selfId].spdY = 0;
+				Player.list[selfId].pressingDown = 0;
 			}
 			else if(event.keyCode == 82){
 				//r
