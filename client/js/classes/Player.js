@@ -10,8 +10,11 @@ var Player = function(initPack){
 	self.playerAngle = initPack.playerAngle;
 	self.score = 0;
 	self.camera = initPack.camera;
-	self.playerImage = "player-right";
-	self.turningFrame = 1;
+	self.playerImage = "img/bird-front.png";
+	self.turningLeft = 0;
+	self.turningRight = 0;
+	self.turnFrame = 0;
+	self.turnAnimationFinished = 0;
 
 	self.update = function(){
 		self.updateSpeed();
@@ -19,7 +22,7 @@ var Player = function(initPack){
 	}
 
 	self.updateSpeed = function(){
-		var accelerationFactor = self.maxSpd/20;
+		var accelerationFactor = self.maxSpd/5;
 		var diagonalSpeedModifier = 1;
 		if(self.pressingRight && self.pressingUp || 
 			self.pressingRight && self.pressingDown || 
@@ -44,6 +47,7 @@ var Player = function(initPack){
 	        }
 	    }
 	    if (self.pressingLeft) {
+	    	self.turningLeft = 1;
 	        if ((self.spdX - accelerationFactor)> -self.maxSpd) {
 	            self.spdX = (self.spdX - accelerationFactor) * diagonalSpeedModifier;
 	        }
@@ -52,12 +56,20 @@ var Player = function(initPack){
 	        }
 	    }
 	    if (self.pressingRight) {
+	    	self.turningRight = 1;
 	        if((self.spdX + accelerationFactor) < self.maxSpd){
 	            self.spdX = (self.spdX + accelerationFactor) * diagonalSpeedModifier;
 	        }
 	        else{
 	        	self.spdX = self.maxSpd * diagonalSpeedModifier;
 	        }
+	    }
+
+	    if(!self.pressingLeft){
+	    	self.turningLeft = 0;
+	    }
+	    if(!self.pressingRight){
+	    	self.turningRight = 0;
 	    }
 
 	    //Limit to max speed
@@ -78,6 +90,10 @@ var Player = function(initPack){
 	    if(self.spdY < 0.1 && self.spdY > -0.1){
 	    	self.spdY = 0;
 	    }
+
+	    if(self.spdX < 2 && self.spdX > -2){
+	    	self.turnAnimationFinished = 0;
+	    }
 	}
 
 	self.updatePosition = function(){
@@ -95,11 +111,25 @@ var Player = function(initPack){
 	
 	self.draw = function(ctx, cam){
 		var rPos = cam.getRelPos(self.getAttr());
+
+		if(self.turningLeft && !self.turnAnimationFinished){
+			self.turnFrame++;
+			self.playerImage = "img/animations/character/turnLeft/turnLeft-" + self.turnFrame + ".png";
+		}
+		else if(self.turningRight && !self.turnAnimationFinished){
+			self.turnFrame++;
+			self.playerImage = "img/animations/character/turnRight/turnRight-" + self.turnFrame + ".png";
+		}
+
+		if(self.turnFrame == 9){
+	    	self.turnFrame = 0;
+	    	self.turnAnimationFinished = 1;
+		}
 		
-		var playerImage = document.getElementById(self.playerImage);
-		
-		if(playerImage){
-			ctx.drawImage(playerImage, rPos.x, rPos.y);
+		if(self.playerImage){
+			var image = new Image();
+			image.src = self.playerImage;
+			ctx.drawImage(image, rPos.x, rPos.y);
 		}
 		else{
 			ctx.lineWidth = 1;

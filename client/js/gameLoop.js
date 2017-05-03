@@ -2,7 +2,7 @@
 if(!isMobile.any){
 	setInterval(function(){
 	    gameloop();
-	}, 16);
+	}, 32);
 
 	resizeCanvas();
 

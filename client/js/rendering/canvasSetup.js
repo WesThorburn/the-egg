@@ -17,6 +17,7 @@ var xPosition = window.innerWidth/2;
 var yPosition = window.innerHeight/2;
 var hudXPosition = screenWidth/2;
 var hudYPosition = screenHeight/2;
+var images = {};
 
 if(currentAspectRatio > optimalAspectRatio){
 	yPosition = yPosition/widthScaleFactor*heightScaleFactor; //takes into account the "perspective" shift already done by the old resizing work
@@ -42,6 +43,25 @@ camera = new Camera(ctx, initPack.camera);
 camera.trackingId = player.id;
 screenWidth = camera.width;
 screenHeight = camera.height;
+
+preloadImages();
+
+function preloadImages(){
+	animations = [
+		["animations/character/turnLeft/turnLeft-", 9],
+		["animations/character/turnRight/turnRight-", 9],
+	];
+	for(var i in animations){
+		for(j = 1; j <= animations[i][1]; j++){
+			loadImage(animations[i][0] + j);
+		}
+	}
+}
+
+function loadImage(imageName){
+	images[imageName] = new Image();
+	images[imageName].src = "img/" + imageName + ".png";
+}
 
 $(window).resize(function(){ 
 	resizeCanvas();

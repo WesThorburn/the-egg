@@ -103,8 +103,11 @@ var Player = function(initPack){
 	self.playerAngle = initPack.playerAngle;
 	self.score = 0;
 	self.camera = initPack.camera;
-	self.playerImage = "player-right";
-	self.turningFrame = 1;
+	self.playerImage = "img/bird-front.png";
+	self.turningLeft = 0;
+	self.turningRight = 0;
+	self.turnFrame = 0;
+	self.turnAnimationFinished = 0;
 
 	self.update = function(){
 		self.updateSpeed();
@@ -112,7 +115,7 @@ var Player = function(initPack){
 	}
 
 	self.updateSpeed = function(){
-		var accelerationFactor = self.maxSpd/20;
+		var accelerationFactor = self.maxSpd/5;
 		var diagonalSpeedModifier = 1;
 		if(self.pressingRight && self.pressingUp || 
 			self.pressingRight && self.pressingDown || 
@@ -137,6 +140,7 @@ var Player = function(initPack){
 	        }
 	    }
 	    if (self.pressingLeft) {
+	    	self.turningLeft = 1;
 	        if ((self.spdX - accelerationFactor)> -self.maxSpd) {
 	            self.spdX = (self.spdX - accelerationFactor) * diagonalSpeedModifier;
 	        }
@@ -145,12 +149,20 @@ var Player = function(initPack){
 	        }
 	    }
 	    if (self.pressingRight) {
+	    	self.turningRight = 1;
 	        if((self.spdX + accelerationFactor) < self.maxSpd){
 	            self.spdX = (self.spdX + accelerationFactor) * diagonalSpeedModifier;
 	        }
 	        else{
 	        	self.spdX = self.maxSpd * diagonalSpeedModifier;
 	        }
+	    }
+
+	    if(!self.pressingLeft){
+	    	self.turningLeft = 0;
+	    }
+	    if(!self.pressingRight){
+	    	self.turningRight = 0;
 	    }
 
 	    //Limit to max speed
@@ -171,6 +183,10 @@ var Player = function(initPack){
 	    if(self.spdY < 0.1 && self.spdY > -0.1){
 	    	self.spdY = 0;
 	    }
+
+	    if(self.spdX < 2 && self.spdX > -2){
+	    	self.turnAnimationFinished = 0;
+	    }
 	}
 
 	self.updatePosition = function(){
@@ -188,11 +204,25 @@ var Player = function(initPack){
 	
 	self.draw = function(ctx, cam){
 		var rPos = cam.getRelPos(self.getAttr());
+
+		if(self.turningLeft && !self.turnAnimationFinished){
+			self.turnFrame++;
+			self.playerImage = "img/animations/character/turnLeft/turnLeft-" + self.turnFrame + ".png";
+		}
+		else if(self.turningRight && !self.turnAnimationFinished){
+			self.turnFrame++;
+			self.playerImage = "img/animations/character/turnRight/turnRight-" + self.turnFrame + ".png";
+		}
+
+		if(self.turnFrame == 9){
+	    	self.turnFrame = 0;
+	    	self.turnAnimationFinished = 1;
+		}
 		
-		var playerImage = document.getElementById(self.playerImage);
-		
-		if(playerImage){
-			ctx.drawImage(playerImage, rPos.x, rPos.y);
+		if(self.playerImage){
+			var image = new Image();
+			image.src = self.playerImage;
+			ctx.drawImage(image, rPos.x, rPos.y);
 		}
 		else{
 			ctx.lineWidth = 1;
@@ -250,6 +280,7 @@ var xPosition = window.innerWidth/2;
 var yPosition = window.innerHeight/2;
 var hudXPosition = screenWidth/2;
 var hudYPosition = screenHeight/2;
+var images = {};
 
 if(currentAspectRatio > optimalAspectRatio){
 	yPosition = yPosition/widthScaleFactor*heightScaleFactor; //takes into account the "perspective" shift already done by the old resizing work
@@ -275,6 +306,25 @@ camera = new Camera(ctx, initPack.camera);
 camera.trackingId = player.id;
 screenWidth = camera.width;
 screenHeight = camera.height;
+
+preloadImages();
+
+function preloadImages(){
+	animations = [
+		["animations/character/turnLeft/turnLeft-", 9],
+		["animations/character/turnRight/turnRight-", 9],
+	];
+	for(var i in animations){
+		for(j = 1; j <= animations[i][1]; j++){
+			loadImage(animations[i][0] + j);
+		}
+	}
+}
+
+function loadImage(imageName){
+	images[imageName] = new Image();
+	images[imageName].src = "img/" + imageName + ".png";
+}
 
 $(window).resize(function(){ 
 	resizeCanvas();
@@ -428,10 +478,18 @@ function drawHud(ctx){
 }
 
 function drawDebugVariables(ctx){
+	var playerData = Player.list[selfId];
+
+	var turningState = "N/A";
+	if(playerData.turningLeft){
+		turningState = "Left";
+	}
+	else if(playerData.turningRight){
+		turningState = "Right";
+	}
+
 	ctx.font = '14px Arial';
 	ctx.fillStyle = 'red';
-	
-	var playerData = Player.list[selfId];
 	ctx.fillText("Id: " + playerData.id, 0, 15);
 	ctx.fillText("X: " + playerData.x, 0, 30);
 	ctx.fillText("Y: " + playerData.y, 0, 45);
@@ -444,6 +502,7 @@ function drawDebugVariables(ctx){
 	ctx.fillText("Camera X: " + camera.x, 0, 150);
 	ctx.fillText("Camera Y: " + camera.y, 0, 165);
 	ctx.fillText("Camera Tracking: " + camera.trackingId, 0, 180);
+	ctx.fillText("Turning: " + turningState, 0, 195);
 
 	ctx.fillStyle = '#F0FBFF';
 	ctx.strokeStyle = '#BFBFBF';
@@ -613,7 +672,7 @@ document.onmousemove = function(event){
 if(!isMobile.any){
 	setInterval(function(){
 	    gameloop();
-	}, 16);
+	}, 32);
 
 	resizeCanvas();
 

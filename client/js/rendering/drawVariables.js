@@ -8,10 +8,18 @@ function drawHud(ctx){
 }
 
 function drawDebugVariables(ctx){
+	var playerData = Player.list[selfId];
+
+	var turningState = "N/A";
+	if(playerData.turningLeft){
+		turningState = "Left";
+	}
+	else if(playerData.turningRight){
+		turningState = "Right";
+	}
+
 	ctx.font = '14px Arial';
 	ctx.fillStyle = 'red';
-	
-	var playerData = Player.list[selfId];
 	ctx.fillText("Id: " + playerData.id, 0, 15);
 	ctx.fillText("X: " + playerData.x, 0, 30);
 	ctx.fillText("Y: " + playerData.y, 0, 45);
@@ -24,6 +32,7 @@ function drawDebugVariables(ctx){
 	ctx.fillText("Camera X: " + camera.x, 0, 150);
 	ctx.fillText("Camera Y: " + camera.y, 0, 165);
 	ctx.fillText("Camera Tracking: " + camera.trackingId, 0, 180);
+	ctx.fillText("Turning: " + turningState, 0, 195);
 
 	ctx.fillStyle = '#F0FBFF';
 	ctx.strokeStyle = '#BFBFBF';
