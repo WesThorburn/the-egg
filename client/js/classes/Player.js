@@ -15,6 +15,7 @@ var Player = function(initPack){
 	self.turningRight = 0;
 	self.turnFrame = 0;
 	self.turnAnimationFinished = 0;
+	self.glideFrame = 0;
 
 	self.update = function(){
 		self.updateSpeed();
@@ -120,10 +121,22 @@ var Player = function(initPack){
 			self.turnFrame++;
 			self.playerImage = "img/animations/character/turnRight/turnRight-" + self.turnFrame + ".png";
 		}
+		else if(!self.turnLeft && !self.turnRight && self.turnAnimationFinished){
+			self.glideFrame++;
+			if(self.spdX <= 0){
+				self.playerImage = "img/animations/character/glideLeft/glideLeft-" + self.glideFrame + ".png";
+			}
+			else if(self.spdX > 0){
+				self.playerImage = "img/animations/character/glideRight/glideRight-" + self.glideFrame + ".png";
+			}
+		}
 
 		if(self.turnFrame == 9){
 	    	self.turnFrame = 0;
 	    	self.turnAnimationFinished = 1;
+		}
+		if(self.glideFrame == 10){
+			self.glideFrame = 0;
 		}
 		
 		if(self.playerImage){
