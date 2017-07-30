@@ -48,10 +48,13 @@ preloadImages();
 
 function preloadImages(){
 	animations = [
-		["animations/character/turnLeft/turnLeft-", 9],
-		["animations/character/turnRight/turnRight-", 9],
+		["animations/character/turnLeft/turnLeft-", 5],
+		["animations/character/turnRight/turnRight-", 5],
 		["animations/character/glideLeft/glideLeft-", 10],
 		["animations/character/glideRight/glideRight-", 10],
+		["animations/character/walkLeft/walkLeft-", 5],
+		["animations/character/walkRight/walkRight-", 5],
+		["animations/character/spawn/spawn-", 27],
 	];
 	for(var i in animations){
 		for(j = 1; j <= animations[i][1]; j++){
